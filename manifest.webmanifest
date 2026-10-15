@@ -1,0 +1,10 @@
+{
+  "name": "آذان واچ — جامعہ عائشۃ صدیقۃ",
+  "short_name": "آذان واچ",
+  "lang": "ur",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0c1a0f",
+  "theme_color": "#102719"
+}

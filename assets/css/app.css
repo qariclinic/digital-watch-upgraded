@@ -1,0 +1,21 @@
+
+        * { font-family: 'Amiri', serif; }
+        .glow { text-shadow: 0 0 20px rgba(34, 197, 94, 0.8), 0 0 40px rgba(34, 197, 94, 0.6); }
+        .gold-glow { text-shadow: 0 0 15px rgba(251, 191, 36, 0.8); }
+        .blink { animation: blink 1s infinite; }
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0.3; } }
+        .scroll-text { animation: scroll 15s linear infinite; }
+        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .pulse-ring { animation: pulse-ring 2s infinite; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
+        .gradient-bg { background: linear-gradient(135deg, #0c1a0f 0%, #1a2f1a 50%, #0f2027 100%); }
+        .card-gradient { background: linear-gradient(145deg, rgba(34, 197, 94, 0.1), rgba(0, 0, 0, 0.4)); }
+        .islamic-border { border: 2px solid; border-image: linear-gradient(45deg, #22c55e, #fbbf24, #22c55e) 1; }
+        input[type="time"] { background: rgba(0,0,0,0.5); color: #22c55e; border: 1px solid #22c55e; border-radius: 5px; padding: 2px 5px; }
+    
+/* Upgrade layer */
+button { cursor:pointer; transition:filter .2s, transform .2s; }
+button:hover { filter:brightness(1.12); }
+button:active { transform:scale(.98); }
+input:focus, button:focus-visible { outline:2px solid #fbbf24; outline-offset:2px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; } }

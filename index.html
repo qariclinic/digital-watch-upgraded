@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آذان واچ — جامعہ عائشۃ صدیقۃ</title>
+    <meta name="theme-color" content="#102719">
+    <meta name="description" content="اردو ڈیجیٹل اسلامی ڈیش بورڈ، گھڑی، تاریخ، اوقات نماز اور ماہانہ اخراجات">
+    <link rel="manifest" href="manifest.webmanifest">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="gradient-bg min-h-screen text-white p-4">
+    <!-- Header -->
+    <div class="text-center mb-4 p-4 card-gradient rounded-xl islamic-border">
+        <h1 class="text-2xl md:text-3xl font-bold gold-glow text-yellow-400">بسم اللہ الرحمن الرحیم</h1>
+        <p class="text-green-400 text-lg mt-2">وَأُفَوِّضُ أَمْرِي إِلَى اللَّهِ إِنَّ اللَّهَ بَصِيرٌ بِالْعِبَادِ</p>
+        <div class="mt-2 text-yellow-300 text-sm">
+            <p>فقیر حافظ مولوی محمد شعیب خان آلائی</p>
+            <p>خادم وخطیب مرکزی جامع مسجد مچھی پول | نگران جامعہ عائشۃ صدیقۃ لبنات الاسلامیہ مانسہرہ</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        <!-- Prayer Times - Right Side -->
+        <div class="lg:col-span-1 card-gradient rounded-xl p-4 islamic-border">
+            <h2 class="text-xl text-yellow-400 text-center mb-4 gold-glow">🕌 اوقاتِ نماز</h2>
+            <div class="space-y-3" id="prayerTimes">
+                <div class="flex justify-between items-center bg-green-900/30 p-2 rounded">
+                    <span class="text-green-300">🌙 تہجد</span>
+                    <input type="time" id="tahajjud" value="04:00" onchange="savePrayerTimes()">
+                </div>
+                <div class="flex justify-between items-center bg-green-900/30 p-2 rounded prayer-row" data-prayer="fajr">
+                    <span class="text-green-300">🌅 فجر</span>
+                    <input type="time" id="fajr" value="05:15" onchange="savePrayerTimes()">
+                </div>
+                <div class="flex justify-between items-center bg-yellow-900/30 p-2 rounded">
+                    <span class="text-yellow-300">☀️ اشراق</span>
+                    <input type="time" id="ishraq" value="06:30" onchange="savePrayerTimes()">
+                </div>
+                <div class="flex justify-between items-center bg-yellow-900/30 p-2 rounded">
+                    <span class="text-yellow-300">🌤️ چاشت</span>
+                    <input type="time" id="chasht" value="09:00" onchange="savePrayerTimes()">
+                </div>
+                <div class="flex justify-between items-center bg-green-900/30 p-2 rounded prayer-row" data-prayer="zuhr">
+                    <span class="text-green-300">🌞 ظہر</span>
+                    <input type="time" id="zuhr" value="12:30" onchange="savePrayerTimes()">
+                </div>
+                <div class="flex justify-between items-center bg-green-900/30 p-2 rounded prayer-row" data-prayer="asr">
+                    <span class="text-green-300">🌇 عصر</span>
+                    <input type="time" id="asr" value="16:00" onchange="savePrayerTimes()">
+                </div>
+                <div class="flex justify-between items-center bg-green-900/30 p-2 rounded prayer-row" data-prayer="maghrib">
+                    <span class="text-green-300">🌆 مغرب</span>
+                    <input type="time" id="maghrib" value="18:00" onchange="savePrayerTimes()">
+                </div>
+                <div class="flex justify-between items-center bg-green-900/30 p-2 rounded prayer-row" data-prayer="isha">
+                    <span class="text-green-300">🌃 عشاء</span>
+                    <input type="time" id="isha" value="19:30" onchange="savePrayerTimes()">
+                </div>
+            </div>
+            <!-- Adhan Alert Box -->
+            <div id="adhanAlert" class="mt-4 p-3 bg-gradient-to-r from-green-800 to-yellow-800 rounded-xl text-center hidden">
+                <div class="text-2xl blink">🔔</div>
+                <p class="text-yellow-300 font-bold text-lg">حَيَّ عَلَى الصَّلَاةِ</p>
+                <p class="text-white text-sm" id="alertPrayer"></p>
+            </div>
+        </div>
+
+        <!-- Center - Main Clock -->
+        <div class="lg:col-span-2 space-y-4">
+            <!-- Digital Clock -->
+            <div class="card-gradient rounded-xl p-6 islamic-border text-center">
+                <div class="text-6xl md:text-8xl font-bold glow text-green-400 pulse-ring inline-block p-4" id="clock">00:00:00</div>
+                <div class="mt-4 flex justify-center gap-8 text-lg">
+                    <div class="bg-green-900/40 px-4 py-2 rounded-lg">
+                        <span class="text-yellow-400">📅 شمسی:</span>
+                        <span class="text-white" id="gregorianDate"></span>
+                    </div>
+                    <div class="bg-green-900/40 px-4 py-2 rounded-lg">
+                        <span class="text-yellow-400">🌙 ہجری:</span>
+                        <span class="text-white" id="hijriDate"></span>
+                    </div>
+                </div>
+                <!-- Weather -->
+                <div class="mt-4 bg-blue-900/30 inline-block px-6 py-2 rounded-full">
+                    <span class="text-2xl">🌡️</span>
+                    <span class="text-cyan-300 text-xl" id="weather">12°C</span>
+                    <span class="text-white">مانسہرہ</span>
+                </div>
+            </div>
+
+            <!-- Daily Schedule -->
+            <div class="card-gradient rounded-xl p-4 islamic-border">
+                <h2 class="text-xl text-yellow-400 text-center mb-3 gold-glow">📋 روزانہ معمولات و اسباق</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
+                    <div class="bg-purple-900/40 p-2 rounded text-center">
+                        <div class="text-purple-300">صبح 8 - 12</div>
+                        <div class="text-white">📚 اسباق</div>
+                    </div>
+                    <div class="bg-orange-900/40 p-2 rounded text-center">
+                        <div class="text-orange-300">12 - 1</div>
+                        <div class="text-white">🍽️ کھانا</div>
+                    </div>
+                    <div class="bg-blue-900/40 p-2 rounded text-center">
+                        <div class="text-blue-300">1 - 2</div>
+                        <div class="text-white">😴 قیلولہ</div>
+                    </div>
+                    <div class="bg-green-900/40 p-2 rounded text-center">
+                        <div class="text-green-300">2 - 2:30</div>
+                        <div class="text-white">🕌 نماز ظہر</div>
+                    </div>
+                    <div class="bg-teal-900/40 p-2 rounded text-center">
+                        <div class="text-teal-300">2:30 - 4</div>
+                        <div class="text-white">📖 دو پیریڈ</div>
+                    </div>
+                    <div class="bg-green-900/40 p-2 rounded text-center">
+                        <div class="text-green-300">4 - 4:30</div>
+                        <div class="text-white">🕌 نماز عصر</div>
+                    </div>
+                    <div class="bg-pink-900/40 p-2 rounded text-center">
+                        <div class="text-pink-300">4:30 - 5:30</div>
+                        <div class="text-white">👥 ملاقات</div>
+                    </div>
+                    <div class="bg-cyan-900/40 p-2 rounded text-center">
+                        <div class="text-cyan-300">5:30 - 6</div>
+                        <div class="text-white">🚶 واک</div>
+                    </div>
+                    <div class="bg-green-900/40 p-2 rounded text-center">
+                        <div class="text-green-300">مغرب</div>
+                        <div class="text-white">🕌 نماز مغرب</div>
+                    </div>
+                    <div class="bg-indigo-900/40 p-2 rounded text-center">
+                        <div class="text-indigo-300">مغرب کے بعد</div>
+                        <div class="text-white">📝 فتاوی نویسی</div>
+                    </div>
+                    <div class="bg-yellow-900/40 p-2 rounded text-center">
+                        <div class="text-yellow-300">عشاء سے پہلے</div>
+                        <div class="text-white">📱 خطوط/میسج</div>
+                    </div>
+                    <div class="bg-green-900/40 p-2 rounded text-center">
+                        <div class="text-green-300">عشاء</div>
+                        <div class="text-white">🕌 نماز عشاء</div>
+                    </div>
+                    <div class="bg-violet-900/40 p-2 rounded text-center">
+                        <div class="text-violet-300">عشاء کے بعد</div>
+                        <div class="text-white">📖 ترجمہ قرآن</div>
+                    </div>
+                    <div class="bg-rose-900/40 p-2 rounded text-center">
+                        <div class="text-rose-300">رات</div>
+                        <div class="text-white">🍽️ ہلکا کھانا</div>
+                    </div>
+                    <div class="bg-sky-900/40 p-2 rounded text-center">
+                        <div class="text-sky-300">2 گھنٹے</div>
+                        <div class="text-white">📱 سوشل میڈیا</div>
+                    </div>
+                </div>
+                <div class="mt-3 bg-amber-900/40 p-2 rounded text-center">
+                    <span class="text-amber-300">📞 روزانہ 1 گھنٹہ:</span>
+                    <span class="text-white">فون سننا اور جواب دینا</span>
+                </div>
+            </div>
+
+            <!-- Dhikr Scrolling -->
+            <div class="card-gradient rounded-xl p-3 islamic-border overflow-hidden">
+                <div class="flex whitespace-nowrap scroll-text">
+                    <span class="text-green-400 text-2xl mx-8">سُبْحَانَ اللّٰہِ ☪️</span>
+                    <span class="text-yellow-400 text-2xl mx-8">اَلْحَمْدُ لِلّٰہِ ☪️</span>
+                    <span class="text-green-400 text-2xl mx-8">لَا اِلٰہَ اِلَّا اللّٰہُ ☪️</span>
+                    <span class="text-yellow-400 text-2xl mx-8">اللّٰہُ اَکْبَرُ ☪️</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Left Side - Additional Info -->
+        <div class="lg:col-span-1 space-y-4">
+            <!-- Weekly Special Schedule -->
+            <div class="card-gradient rounded-xl p-4 islamic-border">
+                <h2 class="text-lg text-yellow-400 text-center mb-3 gold-glow">🩺 خصوصی شیڈول</h2>
+                <div class="bg-red-900/30 p-3 rounded-lg mb-2">
+                    <p class="text-red-300 font-bold">جمعرات 12 بجے - ہفتہ شام</p>
+                    <p class="text-white text-sm">مریضوں کا معائنہ، تشخیص و تجویز ادویہ</p>
+                </div>
+                <div class="bg-blue-900/30 p-3 rounded-lg">
+                    <p class="text-blue-300 font-bold">دعوتی سفر و بیانات</p>
+                    <p class="text-white text-sm">طے شدہ ملاقات کی تاریخیں</p>
+                </div>
+            </div>
+
+            <!-- Weekly Halal Menu -->
+            <div class="card-gradient rounded-xl p-4 islamic-border">
+                <h2 class="text-lg text-yellow-400 text-center mb-3 gold-glow">🍲 ہفتہ وار حلال مینو</h2>
+                <div class="space-y-1 text-sm">
+                    <div class="flex justify-between bg-green-900/30 p-1 rounded"><span>اتوار</span><span class="text-green-300">بریانی 🍚</span></div>
+                    <div class="flex justify-between bg-green-900/30 p-1 rounded"><span>پیر</span><span class="text-green-300">قورمہ روٹی 🫓</span></div>
+                    <div class="flex justify-between bg-green-900/30 p-1 rounded"><span>منگل</span><span class="text-green-300">دال چاول 🍛</span></div>
+                    <div class="flex justify-between bg-green-900/30 p-1 rounded"><span>بدھ</span><span class="text-green-300">سبزی گوشت 🥘</span></div>
+                    <div class="flex justify-between bg-green-900/30 p-1 rounded"><span>جمعرات</span><span class="text-green-300">پلاؤ 🍚</span></div>
+                    <div class="flex justify-between bg-green-900/30 p-1 rounded"><span>جمعہ</span><span class="text-green-300">چکن کڑاہی 🍗</span></div>
+                    <div class="flex justify-between bg-green-900/30 p-1 rounded"><span>ہفتہ</span><span class="text-green-300">نہاری پایہ 🥣</span></div>
+                </div>
+            </div>
+
+            <!-- Monthly Expenses -->
+            <div class="card-gradient rounded-xl p-4 islamic-border">
+                <h2 class="text-lg text-yellow-400 text-center mb-3 gold-glow">💰 ماہانہ گھریلو اخراجات</h2>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between"><span>🛒 راشن</span><input type="number" class="w-20 bg-black/50 text-green-400 rounded px-2" value="25000"></div>
+                    <div class="flex justify-between"><span>💡 بجلی/گیس</span><input type="number" class="w-20 bg-black/50 text-green-400 rounded px-2" value="5000"></div>
+                    <div class="flex justify-between"><span>📱 موبائل</span><input type="number" class="w-20 bg-black/50 text-green-400 rounded px-2" value="1500"></div>
+                    <div class="flex justify-between"><span>🏥 ادویات</span><input type="number" class="w-20 bg-black/50 text-green-400 rounded px-2" value="3000"></div>
+                    <div class="flex justify-between"><span>🚗 ٹرانسپورٹ</span><input type="number" class="w-20 bg-black/50 text-green-400 rounded px-2" value="5000"></div>
+                    <div class="flex justify-between"><span>📚 تعلیمی</span><input type="number" class="w-20 bg-black/50 text-green-400 rounded px-2" value="3000"></div>
+                    <div class="flex justify-between font-bold text-yellow-400 border-t border-yellow-400 pt-2 mt-2">
+                        <span>کل:</span><span id="totalExpense">42,500 Rs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Holidays -->
+            <div class="card-gradient rounded-xl p-4 islamic-border">
+                <h2 class="text-lg text-yellow-400 text-center mb-3 gold-glow">🎉 تعطیلات</h2>
+                <div class="space-y-1 text-sm">
+                    <div class="bg-red-900/30 p-2 rounded">🌙 عید الفطر</div>
+                    <div class="bg-red-900/30 p-2 rounded">🐪 عید الاضحیٰ</div>
+                    <div class="bg-green-900/30 p-2 rounded">🕋 12 ربیع الاول</div>
+                    <div class="bg-blue-900/30 p-2 rounded">🇵🇰 23 مارچ / 14 اگست</div>
+                    <div class="bg-purple-900/30 p-2 rounded">📅 سالانہ تعطیلات</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="mt-4 card-gradient rounded-xl p-4 islamic-border">
+      <h2 class="text-lg text-yellow-400 text-center mb-3">🔔 یاددہانی اور سہولتیں</h2>
+      <div class="flex flex-wrap justify-center gap-3">
+        <button id="enableNotifications" class="bg-green-700 hover:bg-green-600 rounded-lg px-4 py-2">نماز یاددہانی فعال کریں</button>
+        <button id="testAlarm" class="bg-yellow-700 hover:bg-yellow-600 rounded-lg px-4 py-2">آواز آزمائیں</button>
+        <button id="screenWake" class="bg-blue-800 hover:bg-blue-700 rounded-lg px-4 py-2">اسکرین روشن رکھیں</button>
+        <button id="resetSettings" class="bg-red-900 hover:bg-red-800 rounded-lg px-4 py-2">ترتیبات ری سیٹ</button>
+      </div>
+      <p id="featureStatus" class="text-center text-green-300 text-sm mt-3">اوقات اور اخراجات اسی براؤزر میں محفوظ رہیں گے۔</p>
+      <p class="text-center text-xs text-gray-300 mt-2">نوٹ: اصل نماز کے اوقات مقامی مسجد کے مستند شیڈول کے مطابق درج کریں۔ موسم کا حقیقی ڈیٹا انٹرنیٹ/API کے بغیر دستیاب نہیں۔</p>
+    </section>
+
+    <!-- Footer -->
+    <div class="mt-4 text-center card-gradient rounded-xl p-3 islamic-border">
+        <p class="text-green-400">حَسْبُنَا اللّٰہُ وَنِعْمَ الْوَکِیْلُ ۔ وَاللّٰہُ الْمُسْتَعَانُ ۔ یَا حَیُّ یَا قَیُّوْمُ بِرَحْمَتِکَ اَسْتَغِیْثُ</p>
+    </div>
+
+    <audio id="adhanSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdH2Onp+dnJmVkY+OjY6Oj5GUmJydnZuYlZKPjo2NjY6QlJibnZ2cmZWRjo2MjI2Oj5OXmp2dnJmVkY6MjIyMjY+Sl5qcnZyZlZGOjIuLjI2PkpaanJ2cmZWRjoyLi4yNj5KWmpydnJmVkY6Mi4uMjY+Slpqc" type="audio/wav">
+    </audio>
+
+        <script src="assets/js/app.js" defer></script>
+<script>if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./service-worker.js").catch(()=>{});</script>\n</body>
+</html>
